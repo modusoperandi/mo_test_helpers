@@ -1,5 +1,6 @@
 require 'rspec/expectations'
 require "watir-webdriver"
+require "selenium-webdriver"
 require 'pp'
 
 BROWSERS = %w{
@@ -27,7 +28,7 @@ if ENV['CI'] == "true"
     capability_opts[opt.to_sym] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase].present?
   end
   
-  eval("capabilities = WebDriver::Remote::Capabilities.#{env_browser}(capability_opts)")
+  eval("capabilities = Selenium::WebDriver::Remote::Capabilities.#{env_browser}(capability_opts)")
   
   puts "Loading Browser: #{env_browser}"
   puts "with capabilities"
