@@ -22,4 +22,3 @@ Gem::Specification.new do |s|
   s.add_dependency "watir",               ">= 4.0.2"
   s.add_dependency "headless",            ">= 0.3.1"
 end
-RAILS_ENV=test BROWSER=chrome bundle exec cucumber
