@@ -1,0 +1,15 @@
+= M–O CI
+
+This is a simple gem that allows you to run every rails-project on the MO CI Server (currently jenkins) without much configuration.
+
+== Installation
+
+Add the gem to your Gemfile
+
+gem 'mo_ci', :git => "ssh://git@stash.mo-stud.io:7999/MO/ci-gem.git", :branch => "master"
+
+Add config files like this:
+
+config/database.ci.yml
+config/mongo.ci.yml
+config/monigid.ci.yml
