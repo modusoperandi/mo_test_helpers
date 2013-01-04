@@ -41,6 +41,9 @@ end
 # "before all" 
 Before do
   @browser = browser
+  raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
+  @base_url = ENV['URL']
+  @browser.goto ENV['URL']
 end
 
 # "after all"
@@ -49,5 +52,15 @@ at_exit do
   
   unless ENV["STAY_OPEN"]
     browser.close
+  end
+end
+
+# should we run headless? Careful, CI does this alone!
+if ENV['HEADLESS'] == 'true' and not ENV['CI'].present?
+  require 'headless'
+  headless = Headless.new
+  headless.start
+  at_exit do
+    headless.destroy
   end
 end
