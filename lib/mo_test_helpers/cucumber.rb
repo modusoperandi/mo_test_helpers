@@ -28,13 +28,13 @@ if ENV['CI'] == "true"
     capability_opts[opt.to_sym] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase].present?
   end
   
-  eval("capabilities = Selenium::WebDriver::Remote::Capabilities.#{env_browser}(capability_opts)")
+  eval("@capabilities = Selenium::WebDriver::Remote::Capabilities.#{env_browser}(capability_opts)")
   
   puts "Loading Browser: #{env_browser}"
   puts "with capabilities"
-  pp capabilities
+  pp @capabilities
   
-  browser = Watir::Browser.new(:remote, :url => selenium_grid, :desired_capabilities => capabilities)
+  browser = Watir::Browser.new(:remote, :url => selenium_grid, :desired_capabilities => @capabilities)
 else
   browser = Watir::Browser.new(env_browser)
 end
