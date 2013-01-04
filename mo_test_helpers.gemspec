@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = MoTestHelpers::VERSION
   s.authors     = ["Max Schulze"]
   s.email       = ["max@mo-stud.io"]
-  s.homepage    = "mo-stud.io"
+  s.homepage    = "http://mo-stud.io"
   s.summary     = "General tools for making our setup and life with tests easier."
   s.description = "Pre-defined configurations and tools for running common tasks using the MO style guidelines."
 
