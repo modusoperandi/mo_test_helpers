@@ -41,16 +41,16 @@ if ENV['CI'] == "true"
   browser.driver.manage.timeouts.implicit_wait = 30
   
   # Save a screenshot for each scenario
-  After do |scenario|
-    begin
-      @browser.screenshot.save 'screenshot.png'
-      embed 'screenshot.png', 'image/png'
-    rescue => e
-      puts "Could not save screenshot!"
-      puts "Error was:"
-      pp e
-    end
-  end
+  # After do |scenario|
+  #   begin
+  #     @browser.screenshot.save 'screenshot.png'
+  #     embed 'screenshot.png', 'image/png'
+  #   rescue => e
+  #     puts "Could not save screenshot!"
+  #     puts "Error was:"
+  #     pp e
+  #   end
+  # end
 
 else
   browser = Watir::Browser.new(env_browser)
