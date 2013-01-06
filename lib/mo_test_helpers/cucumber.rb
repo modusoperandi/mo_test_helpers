@@ -66,11 +66,7 @@ end
 
 # "after all"
 at_exit do
-  return if ENV['CI'] == 'true'
-
-  unless ENV["STAY_OPEN"]
-    browser.close
-  end
+  browser.close unless ENV["STAY_OPEN"]
 end
 
 # should we run headless? Careful, CI does this alone!
