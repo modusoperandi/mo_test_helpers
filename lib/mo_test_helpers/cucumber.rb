@@ -8,7 +8,7 @@ BROWSERS = %w{
 }
 
 GRID_OPTIONS = %w{
-  platform version javascript_enabled css_selectors_enabled rotatable firefox_profile
+  platform javascript_enabled css_selectors_enabled rotatable firefox_profile
 }
 
 # Validate the browser
@@ -35,6 +35,13 @@ if ENV['CI'] == "true"
   pp @capabilities
   
   browser = Watir::Browser.new(:remote, :url => selenium_grid, :desired_capabilities => @capabilities)
+  
+  # Save a screenshot for each scenario
+  After do |scenario|
+    @browser.screenshot.save 'screenshot.png'
+    embed 'screenshot.png', 'image/png'
+  end
+  
 else
   browser = Watir::Browser.new(env_browser)
 end
