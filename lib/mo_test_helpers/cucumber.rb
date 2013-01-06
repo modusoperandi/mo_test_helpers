@@ -1,15 +1,3 @@
-# Increase timeouts for slow selenium grid
-module Net
-  class HTTP
-    alias old_initialize initialize
-
-    def initialize(*args)
-      old_initialize(*args)
-      @read_timeout = 10*60     # 10 minutes
-    end
-  end
-end
-
 require 'rspec/expectations'
 require "watir-webdriver"
 require "selenium-webdriver"
@@ -46,8 +34,12 @@ if ENV['CI'] == "true"
   puts "with capabilities"
   pp @capabilities
 
-  browser = Watir::Browser.new(:remote, :url => selenium_grid, :desired_capabilities => @capabilities)
+  client = Selenium::WebDriver::Remote::Http::Default.new
+  client.timeout = 180
 
+  browser = Watir::Browser.new(:remote, :url => selenium_grid, :desired_capabilities => @capabilities, :http_client => client)
+  browser.driver.manage.timeouts.implicit_wait = 30
+  
   # Save a screenshot for each scenario
   After do |scenario|
     begin
