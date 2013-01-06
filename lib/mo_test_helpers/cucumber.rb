@@ -38,8 +38,14 @@ if ENV['CI'] == "true"
   
   # Save a screenshot for each scenario
   After do |scenario|
-    @browser.screenshot.save 'screenshot.png'
-    embed 'screenshot.png', 'image/png'
+    begin
+      @browser.screenshot.save 'screenshot.png'
+      embed 'screenshot.png', 'image/png'
+    rescue => e
+      puts "Could not save screenshot!"
+      puts "Error was:"
+      pp e
+    end
   end
   
 else
