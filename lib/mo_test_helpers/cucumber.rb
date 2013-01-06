@@ -1,3 +1,15 @@
+# Increase timeouts for slow selenium grid
+module Net
+  class HTTP
+    alias old_initialize initialize
+
+    def initialize(*args)
+      old_initialize(*args)
+      @read_timeout = 10*60     # 10 minutes
+    end
+  end
+end
+
 require 'rspec/expectations'
 require "watir-webdriver"
 require "selenium-webdriver"
@@ -20,22 +32,22 @@ if ENV['CI'] == "true"
   puts "Running Cucumber in CI Mode."
   # check if we have the grid
   selenium_grid = ENV['SELENIUM_GRID_URL']
-  
+
   raise ArgumentError.new("SELENIUM_GRID_URL has to be defined.") if selenium_grid.blank?
-  
+
   capability_opts = {}
   GRID_OPTIONS.each do |opt|
     capability_opts[opt.to_sym] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase].present?
   end
-  
+
   eval("@capabilities = Selenium::WebDriver::Remote::Capabilities.#{env_browser}(capability_opts)")
-  
+
   puts "Loading Browser: #{env_browser}"
   puts "with capabilities"
   pp @capabilities
-  
+
   browser = Watir::Browser.new(:remote, :url => selenium_grid, :desired_capabilities => @capabilities)
-  
+
   # Save a screenshot for each scenario
   After do |scenario|
     begin
@@ -47,12 +59,12 @@ if ENV['CI'] == "true"
       pp e
     end
   end
-  
+
 else
   browser = Watir::Browser.new(env_browser)
 end
 
-# "before all" 
+# "before all"
 Before do
   @browser = browser
   raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
@@ -63,7 +75,7 @@ end
 # "after all"
 at_exit do
   return if ENV['CI'] == 'true'
-  
+
   unless ENV["STAY_OPEN"]
     browser.close
   end
