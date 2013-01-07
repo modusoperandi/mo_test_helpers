@@ -1,15 +1,23 @@
-= M–O CI
+= M–O Test Helpers
 
-This is a simple gem that allows you to run every rails-project on the MO CI Server (currently jenkins) without much configuration.
+This is a gem that just puts together some standard test tools that we need for both CI and manual testing.
 
 == Installation
 
-Add the gem to your Gemfile
+Add the gem to your Gemfile:
 
-gem 'mo_ci', :git => "ssh://git@stash.mo-stud.io:7999/MO/ci-gem.git", :branch => "master"
+for external projects (not hosted on Stash):
 
-Add config files like this:
+group :test do
+  gem 'mo_test_helpers',      :git => 'git://github.com/modusoperandi/mo_test_helpers.git'
+end
 
-config/database.ci.yml
-config/mongo.ci.yml
-config/monigid.ci.yml
+for internal projects (hosted on Stash):
+
+group :test do
+  gem 'mo_test_helpers',      :git => 'ssh://git@stash.mo-stud.io:7999/MO/test_helpers.git'
+end
+
+Require the helpers at the top of your env.rb:
+
+require 'mo_test_helpers/cucumber'
