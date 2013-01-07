@@ -1,0 +1,10 @@
+{
+    "name": "MO-Testing-JS-Package",
+    "version": "0.0.1",
+    "description": "Dependencies for test structure and linting",
+    "author": "MO-Test",
+    "dependencies": {
+        "buster": "0.6.x",
+        "buster-coffee": "0.1.x"
+    }
+}
