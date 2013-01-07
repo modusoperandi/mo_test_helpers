@@ -9,6 +9,7 @@ module MoTestHelpers
       
       def create_folder_structure
         empty_directory File.join('app', 'assets', 'tests')
+        empty_directory File.join('app', 'assets', 'tests', 'bin')
         empty_directory File.join('app', 'assets', 'tests', 'Helpers')
         empty_directory File.join('app', 'assets', 'tests', 'Specs')
         empty_directory File.join('app', 'assets', 'tests', 'Specs', 'App')
@@ -23,6 +24,9 @@ module MoTestHelpers
         copy_file "package.json", "app/assets/app/package.json"
         copy_file "pre.js.coffee", "app/assets/tests/Helpers/pre.js.coffee"
         copy_file "post.js.coffee", "app/assets/tests/Helpers/post.js.coffee"
+        copy_file "server.sh", "app/assets/tests/bin/server.sh"
+        copy_file "kill-server.sh", "app/assets/tests/bin/kill-server.sh"
+        copy_file "phantom.js", "app/assets/tests/bin/phantom.js"
       end
       
       def diplay_note
