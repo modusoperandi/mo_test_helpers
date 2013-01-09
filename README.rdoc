@@ -21,3 +21,7 @@ for internal projects (hosted on Stash):
 Require the helpers at the top of your env.rb:
 
   require 'mo_test_helpers/cucumber'
+  
+and the rspec helpers on top of spec_helper
+
+  require 'mo_test_helpers/rspec'
