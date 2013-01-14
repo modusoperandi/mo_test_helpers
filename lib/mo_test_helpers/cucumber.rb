@@ -5,7 +5,7 @@ require "selenium-webdriver"
 require 'pp'
 require 'mo_test_helpers/selenium_helper'
 
-puts "Running with engine: #{MoTestHelpers.engine}"
+puts "Running with engine: #{MoTestHelpers.cucumber_engine}"
 puts "Running in CI: #{ENV['CI']}"
 
 # Validate the browser
@@ -15,7 +15,7 @@ MoTestHelpers::SeleniumHelper.validate_browser!
 if ENV['CI'] == "true" and ENV['SELENIUM_GRID_URL'] != ""
   puts "Running Cucumber in CI Mode."
   
-  if MoTestHelpers.engine == :capybara
+  if MoTestHelpers.cucumber_engine == :capybara
     raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
     
     Capybara.app_host = ENV['URL']
@@ -26,7 +26,7 @@ if ENV['CI'] == "true" and ENV['SELENIUM_GRID_URL'] != ""
     browser = MoTestHelpers::SeleniumHelper.grid_watir_browser
   end
 else
-  if MoTestHelpers.engine == :capybara
+  if MoTestHelpers.cucumber_engine == :capybara
     Capybara.register_driver :selenium do |app|
       MoTestHelpers::SeleniumHelper.capybara_browser(app)
     end
@@ -35,13 +35,13 @@ else
   end
 end
 
-if MoTestHelpers.engine == :capybara
+if MoTestHelpers.cucumber_engine == :capybara
   Capybara.server_port = ENV['SERVER_PORT'] || 3001
 end  
 
 # "before all"
 Before do
-  if MoTestHelpers.engine == :watir
+  if MoTestHelpers.cucumber_engine == :watir
     puts "Running Watir Browser."
     
     @browser = browser
