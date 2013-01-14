@@ -12,7 +12,7 @@ MoTestHelpers::SeleniumHelper.validate_browser!
 if ENV['CI'] == "true"
   puts "Running Cucumber in CI Mode."
   
-  if ENGINE and ENGINE = :capybara
+  if ENGINE and ENGINE == :capybara
     raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
     
     Capybara.app_host = ENV['URL']
@@ -23,7 +23,7 @@ if ENV['CI'] == "true"
     browser = MoTestHelpers::SeleniumHelper.grid_watir_browser
   end
 else
-  if ENGINE and ENGINE = :capybara
+  if ENGINE and ENGINE == :capybara
     Capybara.register_driver :selenium do |app|
       MoTestHelpers::SeleniumHelper.capybara_browser(app)
     end
@@ -31,6 +31,10 @@ else
     browser = MoTestHelpers::SeleniumHelper.watir_browser
   end
 end
+
+if ENGINE and ENGINE == :capybara
+  Capybara.server_port = ENV['SERVER_PORT'] || 3001
+end  
 
 # "before all"
 Before do
