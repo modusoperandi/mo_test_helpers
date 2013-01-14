@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
 
-  s.add_dependency "cucumber",            ">= 1.3.0"
+  s.add_dependency "cucumber-rails",      ">= 1.3.0"
   s.add_dependency "rspec",               ">= 2.8.0"
   s.add_dependency "database_cleaner",    ">= 0.9.1"
   s.add_dependency "factory_girl_rails",  ">= 3.1.0"
