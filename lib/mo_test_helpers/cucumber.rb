@@ -1,5 +1,6 @@
 require 'rspec/expectations'
 require "watir-webdriver"
+require 'capybara'
 require "selenium-webdriver"
 require 'pp'
 require 'mo_test_helpers/selenium_helper'
@@ -10,18 +11,32 @@ SeleniumHelper.validate_browser!
 # see if we are running on MO CI Server
 if ENV['CI'] == "true"
   puts "Running Cucumber in CI Mode."
-
-  browser = SeleniumHelper.grid_watir_browser
+  
+  if ENGINE and ENGINE = :capybara
+    Capybara.register_driver :selenium do |app|
+      SeleniumHelper.grid_capybara_browser(app)
+    end
+  else
+    browser = SeleniumHelper.grid_watir_browser
+  end
 else
-  browser = SeleniumHelper.watir_browser
+  if ENGINE and ENGINE = :capybara
+    Capybara.register_driver :selenium do |app|
+      SeleniumHelper.capybara_browser(app)
+    end
+  else
+    browser = SeleniumHelper.watir_browser
+  end
 end
 
 # "before all"
 Before do
-  @browser = browser
-  raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
-  @base_url = ENV['URL']
-  @browser.goto ENV['URL']
+  unless ENGINE and ENGINE = :capybara
+    @browser = browser
+    raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
+    @base_url = ENV['URL']
+    @browser.goto ENV['URL']
+  end
 end
 
 # "after all"
