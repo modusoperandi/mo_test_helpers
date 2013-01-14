@@ -20,6 +20,8 @@ Gem::Specification.new do |s|
   s.add_dependency "database_cleaner",    ">= 0.9.1"
   s.add_dependency "factory_girl",        ">= 3.1.0"
   s.add_dependency "watir",               ">= 4.0.2"
+  s.add_dependency "capybara",            ">= 1.1.2"
+  s.add_dependency "selenium-webdriver",  ">= 2.25.0"
   s.add_dependency "headless",            ">= 0.3.1"
   s.add_dependency "simplecov",           ">= 0.7.1"
   s.add_dependency "simplecov-rcov",      ">= 0.2.3"

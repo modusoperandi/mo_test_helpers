@@ -6,7 +6,7 @@ require 'pp'
 require 'mo_test_helpers/selenium_helper'
 
 # Validate the browser
-SeleniumHelper.validate_browser!
+MoTestHelpers::SeleniumHelper.validate_browser!
 
 # see if we are running on MO CI Server
 if ENV['CI'] == "true"
@@ -14,18 +14,18 @@ if ENV['CI'] == "true"
   
   if ENGINE and ENGINE = :capybara
     Capybara.register_driver :selenium do |app|
-      SeleniumHelper.grid_capybara_browser(app)
+      MoTestHelpers::SeleniumHelper.grid_capybara_browser(app)
     end
   else
-    browser = SeleniumHelper.grid_watir_browser
+    browser = MoTestHelpers::SeleniumHelper.grid_watir_browser
   end
 else
   if ENGINE and ENGINE = :capybara
     Capybara.register_driver :selenium do |app|
-      SeleniumHelper.capybara_browser(app)
+      MoTestHelpers::SeleniumHelper.capybara_browser(app)
     end
   else
-    browser = SeleniumHelper.watir_browser
+    browser = MoTestHelpers::SeleniumHelper.watir_browser
   end
 end
 
