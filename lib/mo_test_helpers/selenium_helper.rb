@@ -42,7 +42,7 @@ module MoTestHelpers
       end
 
       def capybara_browser(app)
-        Capybara::Selenium::Driver.new(app, :browser => browser)
+        Capybara::Selenium::Driver.new(app, :browser => browser.to_sym)
       end
 
       def grid_watir_browser
