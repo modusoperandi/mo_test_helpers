@@ -9,7 +9,7 @@ require 'mo_test_helpers/selenium_helper'
 MoTestHelpers::SeleniumHelper.validate_browser!
 
 # see if we are running on MO CI Server
-if ENV['CI'] == "true" and ENV['SELENIUM_GRID_URL']
+if ENV['CI'] == "true" and ENV['SELENIUM_GRID_URL'] != ""
   puts "Running Cucumber in CI Mode."
   
   if defined?(ENGINE) and ENGINE == :capybara
