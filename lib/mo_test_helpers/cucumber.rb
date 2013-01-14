@@ -9,11 +9,23 @@ puts "Running with engine: #{MoTestHelpers.cucumber_engine}"
 puts "Running in CI: #{ENV['CI']}"
 puts "Running Headless: #{ENV['HEADLESS']}"
 
+# should we run headless? Careful, CI does this alone!
+if ENV['HEADLESS'] and not ENV['CI']
+  puts "Starting headless..."
+  require 'headless'
+  
+  headless = Headless.new
+  headless.start
+  at_exit do
+    headless.destroy
+  end
+end
+
 # Validate the browser
 MoTestHelpers::SeleniumHelper.validate_browser!
 
 # see if we are running on MO CI Server
-if ENV['CI'] == "true" and ENV['SELENIUM_GRID_URL'] != ""
+if ENV['CI'] and not ENV['SELENIUM_GRID_URL']
   puts "Running Cucumber in CI Mode."
   
   if MoTestHelpers.cucumber_engine == :capybara
@@ -57,17 +69,5 @@ at_exit do
   if @browser
     puts "Closing Watir browser."
     @browser.close unless ENV["STAY_OPEN"]
-  end
-end
-
-# should we run headless? Careful, CI does this alone!
-if ENV['HEADLESS'] and not ENV['CI']
-  puts "Starting headless..."
-  require 'headless'
-  
-  headless = Headless.new
-  headless.start
-  at_exit do
-    headless.destroy
   end
 end
