@@ -48,7 +48,9 @@ end
 
 # "after all"
 at_exit do
-  @browser.close unless ENV["STAY_OPEN"]
+  if @browser
+    @browser.close unless ENV["STAY_OPEN"]
+  end
 end
 
 # should we run headless? Careful, CI does this alone!
