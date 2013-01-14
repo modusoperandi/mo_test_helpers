@@ -17,7 +17,7 @@ class SeleniumHelper
     def capabilities
       capability_opts = {}
       GRID_OPTIONS.each do |opt|
-        capability_opts[opt.to_sym] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase].present?
+        capability_opts[opt.to_sym] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase]
       end
 
       eval("@capabilities = Selenium::WebDriver::Remote::Capabilities.#{browser}(capability_opts)")
@@ -34,7 +34,7 @@ class SeleniumHelper
     end
     
     def grid_watir_browser
-      raise ArgumentError.new("SELENIUM_GRID_URL has to be defined.") if selenium_grid.blank?
+      raise ArgumentError.new("SELENIUM_GRID_URL has to be defined.") unless selenium_grid
       
       browser = Watir::Browser.new(:remote, :url => selenium_grid, :desired_capabilities => capabilities, :http_client => http_client)
       browser.driver.manage.timeouts.implicit_wait = 30
@@ -43,7 +43,7 @@ class SeleniumHelper
     end
     
     def grid_selenium_browser
-      raise ArgumentError.new("SELENIUM_GRID_URL has to be defined.") if selenium_grid.blank?
+      raise ArgumentError.new("SELENIUM_GRID_URL has to be defined.") unless selenium_grid
       
       browser = Selenium::WebDriver.for(:remote, 
         :url => selenium_grid, 
