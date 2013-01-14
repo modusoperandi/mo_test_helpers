@@ -6,4 +6,7 @@ module MoTestHelpers
     end
   end
   
+  mattr_accessor :cucumber_engine
+  self.cucumber_engine = :watir
+  
 end

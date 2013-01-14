@@ -5,6 +5,9 @@ require "selenium-webdriver"
 require 'pp'
 require 'mo_test_helpers/selenium_helper'
 
+puts "Running with engine: #{MoTestHelpers.engine}"
+puts "Running in CI: #{ENV['CI']}"
+
 # Validate the browser
 MoTestHelpers::SeleniumHelper.validate_browser!
 
@@ -12,7 +15,7 @@ MoTestHelpers::SeleniumHelper.validate_browser!
 if ENV['CI'] == "true" and ENV['SELENIUM_GRID_URL'] != ""
   puts "Running Cucumber in CI Mode."
   
-  if defined?(ENGINE) and ENGINE == :capybara
+  if MoTestHelpers.engine == :capybara
     raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
     
     Capybara.app_host = ENV['URL']
@@ -23,7 +26,7 @@ if ENV['CI'] == "true" and ENV['SELENIUM_GRID_URL'] != ""
     browser = MoTestHelpers::SeleniumHelper.grid_watir_browser
   end
 else
-  if defined?(ENGINE) and ENGINE == :capybara
+  if MoTestHelpers.engine == :capybara
     Capybara.register_driver :selenium do |app|
       MoTestHelpers::SeleniumHelper.capybara_browser(app)
     end
@@ -32,13 +35,13 @@ else
   end
 end
 
-if defined?(ENGINE) and ENGINE == :capybara
+if MoTestHelpers.engine == :capybara
   Capybara.server_port = ENV['SERVER_PORT'] || 3001
 end  
 
 # "before all"
 Before do
-  if not defined?(ENGINE) or ENGINE == :watir
+  if MoTestHelpers.engine == :watir
     puts "Running Watir Browser."
     
     @browser = browser
@@ -57,7 +60,7 @@ at_exit do
 end
 
 # should we run headless? Careful, CI does this alone!
-if ENV['HEADLESS'] == 'true' and not ENV['CI'].present?
+if ENV['HEADLESS'] == 'true' and ENV['CI'] != "true"
   require 'headless'
   puts "Starting headless..."
   
