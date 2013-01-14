@@ -7,6 +7,7 @@ require 'mo_test_helpers/selenium_helper'
 
 puts "Running with engine: #{MoTestHelpers.cucumber_engine}"
 puts "Running in CI: #{ENV['CI']}"
+puts "Running Headless: #{ENV['HEADLESS']}"
 
 # Validate the browser
 MoTestHelpers::SeleniumHelper.validate_browser!
