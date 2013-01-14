@@ -5,7 +5,7 @@ class SeleniumHelper
   }
 
   GRID_OPTIONS = %w{
-    platform javascript_enabled css_selectors_enabled rotatable firefox_profile
+    platform javascript_enabled css_selectors_enabled rotatable firefox_profile browser_version
   }
   
   class << self
@@ -17,7 +17,11 @@ class SeleniumHelper
     def capabilities
       capability_opts = {}
       GRID_OPTIONS.each do |opt|
-        capability_opts[opt.to_sym] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase]
+        if opt == "browser_version"
+          capability_opts['version'] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase]
+        else
+          capability_opts[opt.to_sym] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase]
+        end
       end
 
       eval("@capabilities = Selenium::WebDriver::Remote::Capabilities.#{browser}(capability_opts)")
