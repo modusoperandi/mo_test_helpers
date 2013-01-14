@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "cucumber-rails",      ">= 1.3.0"
   s.add_dependency "rspec-rails",         ">= 2.8.0"
-  s.add_dependency "selenium-webdriver",  ">= 2.27.2"
   s.add_dependency "database_cleaner",    ">= 0.9.1"
   s.add_dependency "factory_girl_rails",  ">= 3.1.0"
   s.add_dependency "watir",               ">= 4.0.2"
