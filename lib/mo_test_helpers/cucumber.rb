@@ -2,7 +2,7 @@ require 'rspec/expectations'
 require "watir-webdriver"
 require "selenium-webdriver"
 require 'pp'
-require 'selenium_helper'
+require 'mo_test_helpers/selenium_helper'
 
 # Validate the browser
 SeleniumHelper.validate_browser!
