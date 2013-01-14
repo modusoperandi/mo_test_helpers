@@ -1,8 +1,8 @@
 class SeleniumHelper
   
-  BROWSERS = %w{
-    firefox android chrome htmlunit internet_explorer ipad iphone opera safari
-  }
+  BROWSERS = [
+    "firefox", "android", "chrome", "htmlunit", "internet explorer", "ipad", "iphone", "opera", "safari"
+  ]
 
   GRID_OPTIONS = %w{
     platform javascript_enabled css_selectors_enabled rotatable firefox_profile browser_version
