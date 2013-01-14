@@ -13,6 +13,9 @@ if ENV['CI'] == "true"
   puts "Running Cucumber in CI Mode."
   
   if ENGINE and ENGINE = :capybara
+    raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
+    
+    Capybara.app_host = ENV['URL']
     Capybara.register_driver :selenium do |app|
       MoTestHelpers::SeleniumHelper.grid_capybara_browser(app)
     end
