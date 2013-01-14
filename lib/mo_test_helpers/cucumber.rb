@@ -56,6 +56,8 @@ end
 # should we run headless? Careful, CI does this alone!
 if ENV['HEADLESS'] == 'true' and not ENV['CI'].present?
   require 'headless'
+  puts "Starting headless..."
+  
   headless = Headless.new
   headless.start
   at_exit do
