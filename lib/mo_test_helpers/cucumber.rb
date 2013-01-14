@@ -61,9 +61,9 @@ at_exit do
 end
 
 # should we run headless? Careful, CI does this alone!
-if ENV['HEADLESS'] == 'true' and ENV['CI'] != "true"
-  require 'headless'
+if ENV['HEADLESS'] and not ENV['CI']
   puts "Starting headless..."
+  require 'headless'
   
   headless = Headless.new
   headless.start
