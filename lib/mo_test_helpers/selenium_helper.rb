@@ -18,7 +18,7 @@ class SeleniumHelper
       capability_opts = {}
       GRID_OPTIONS.each do |opt|
         if opt == "browser_version"
-          capability_opts['version'] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase]
+          capability_opts[:version] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase]
         else
           capability_opts[opt.to_sym] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase]
         end
