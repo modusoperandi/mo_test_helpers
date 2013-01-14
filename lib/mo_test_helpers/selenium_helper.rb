@@ -1,7 +1,7 @@
 require 'selenium/webdriver'
 
 module MoTestHelpers
-  
+
   class SeleniumHelper
 
     BROWSERS = [
@@ -70,12 +70,12 @@ module MoTestHelpers
       def grid_selenium_browser
         raise ArgumentError.new("SELENIUM_GRID_URL has to be defined.") unless selenium_grid
 
-        browser = Selenium::WebDriver.for(:remote, 
-          :url => selenium_grid, 
-          :desired_capabilities => capabilities, 
+        browser = Selenium::WebDriver.for(:remote,
+          :url => selenium_grid,
+          :desired_capabilities => capabilities,
           :http_client => http_client
         )
-        browser.manage.timeouts.implicit_wait = 3
+        browser.manage.timeouts.implicit_wait = 30
 
         return browser
       end
@@ -99,5 +99,5 @@ module MoTestHelpers
     end
 
   end
-  
+
 end

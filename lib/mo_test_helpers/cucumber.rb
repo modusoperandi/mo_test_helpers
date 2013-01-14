@@ -39,6 +39,8 @@ end
 # "before all"
 Before do
   if not defined?(ENGINE) or ENGINE == :watir
+    puts "Running Watir Browser."
+    
     @browser = browser
     raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
     @base_url = ENV['URL']
@@ -49,6 +51,7 @@ end
 # "after all"
 at_exit do
   if @browser
+    puts "Closing Watir browser."
     @browser.close unless ENV["STAY_OPEN"]
   end
 end
