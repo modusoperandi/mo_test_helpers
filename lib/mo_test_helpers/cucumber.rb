@@ -2,58 +2,18 @@ require 'rspec/expectations'
 require "watir-webdriver"
 require "selenium-webdriver"
 require 'pp'
-
-BROWSERS = %w{
-  android chrome firefox htmlunit internet_explorer ipad iphone opera safari
-}
-
-GRID_OPTIONS = %w{
-  platform javascript_enabled css_selectors_enabled rotatable firefox_profile
-}
+require 'selenium_helper'
 
 # Validate the browser
-env_browser = ENV['BROWSER'] || 'firefox'
-raise ArgumentError.new("The browser #{env_browser} is not supported.") unless BROWSERS.include?(env_browser)
+SeleniumHelper.validate_browser!
 
 # see if we are running on MO CI Server
 if ENV['CI'] == "true"
   puts "Running Cucumber in CI Mode."
-  # check if we have the grid
-  selenium_grid = ENV['SELENIUM_GRID_URL']
 
-  raise ArgumentError.new("SELENIUM_GRID_URL has to be defined.") if selenium_grid.blank?
-
-  capability_opts = {}
-  GRID_OPTIONS.each do |opt|
-    capability_opts[opt.to_sym] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase].present?
-  end
-
-  eval("@capabilities = Selenium::WebDriver::Remote::Capabilities.#{env_browser}(capability_opts)")
-
-  puts "Loading Browser: #{env_browser}"
-  puts "with capabilities"
-  pp @capabilities
-
-  client = Selenium::WebDriver::Remote::Http::Default.new
-  client.timeout = 180
-
-  browser = Watir::Browser.new(:remote, :url => selenium_grid, :desired_capabilities => @capabilities, :http_client => client)
-  browser.driver.manage.timeouts.implicit_wait = 30
-  
-  # Save a screenshot for each scenario
-  # After do |scenario|
-  #   begin
-  #     @browser.screenshot.save 'screenshot.png'
-  #     embed 'screenshot.png', 'image/png'
-  #   rescue => e
-  #     puts "Could not save screenshot!"
-  #     puts "Error was:"
-  #     pp e
-  #   end
-  # end
-
+  browser = SeleniumHelper.grid_watir_browser
 else
-  browser = Watir::Browser.new(env_browser)
+  browser = SeleniumHelper.watir_browser
 end
 
 # "before all"
@@ -66,7 +26,7 @@ end
 
 # "after all"
 at_exit do
-  browser.close unless ENV["STAY_OPEN"]
+  @browser.close unless ENV["STAY_OPEN"]
 end
 
 # should we run headless? Careful, CI does this alone!
