@@ -15,7 +15,7 @@ module MoTestHelpers
     class << self
 
       def validate_browser!
-        raise ArgumentError.new("The browser #{env_browser} is not supported.") unless BROWSERS.include?(browser)
+        raise ArgumentError.new("The browser #{browser} is not supported.") unless BROWSERS.include?(browser)
       end
 
       def capabilities
