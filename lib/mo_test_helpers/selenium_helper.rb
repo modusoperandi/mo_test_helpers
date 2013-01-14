@@ -23,8 +23,8 @@ class SeleniumHelper
           capability_opts[opt.to_sym] = ENV[opt.to_s.upcase] if ENV[opt.to_s.upcase]
         end
       end
-
-      eval("@capabilities = Selenium::WebDriver::Remote::Capabilities.#{browser}(capability_opts)")
+      
+      eval("@capabilities = Selenium::WebDriver::Remote::Capabilities.#{browser.gsub(' ', '_')}(capability_opts)")
       
       puts "Loading Browser: #{browser}"
       puts "with capabilities"
