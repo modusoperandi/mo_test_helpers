@@ -1,3 +1,4 @@
+require 'mo_test_helpers'
 require 'rspec/expectations'
 require "watir-webdriver"
 require 'capybara'
