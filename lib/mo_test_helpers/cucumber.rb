@@ -13,7 +13,7 @@ puts "Running Headless: #{ENV['HEADLESS']}"
 if ENV['HEADLESS'] and not ENV['CI']
   puts "Starting headless..."
   require 'headless'
-  
+
   headless = Headless.new
   headless.start
   at_exit do
@@ -27,10 +27,10 @@ MoTestHelpers::SeleniumHelper.validate_browser!
 # see if we are running on MO CI Server
 if ENV['CI'] and not ENV['SELENIUM_GRID_URL']
   puts "Running Cucumber in CI Mode."
-  
+
   if MoTestHelpers.cucumber_engine == :capybara
     raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
-    
+
     Capybara.app_host = ENV['URL']
     Capybara.register_driver :selenium do |app|
       MoTestHelpers::SeleniumHelper.grid_capybara_browser(app)
@@ -50,15 +50,20 @@ end
 
 if MoTestHelpers.cucumber_engine == :capybara
   Capybara.server_port = ENV['SERVER_PORT'] || 3001
-end  
+end
 
 # "before all"
 Before do
   if MoTestHelpers.cucumber_engine == :watir
     puts "Running Watir Browser."
-    
+
     @browser = browser
-    raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
+
+    unless ENV['URL']
+      ENV['URL'] = 'http://localhost:3000'
+      puts "Warning: Using default URL localhost:3000 because ENV URL is not given."
+    end
+
     @base_url = ENV['URL']
     @browser.goto ENV['URL']
   end
