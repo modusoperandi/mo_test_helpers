@@ -11,7 +11,7 @@ module MoTestHelpers
   class Cucumber
     
     class << self
-      attr_accessor :cucumber_engine
+      attr_accessor :engine
     
       def configure
         yield self
@@ -22,13 +22,11 @@ module MoTestHelpers
   
 end
 
-include MoTestHelpers
-
-Cucumber.configure do |config|
-  config.cucumber_engine = :watir
+MoTestHelpers::Cucumber.configure do |config|
+  config.engine = :watir
 end
 
-puts "Running with engine: #{MoTestHelpers.cucumber_engine}"
+puts "Running with engine: #{MoTestHelpers::Cucumber.engine}"
 puts "Running in CI: #{ENV['CI']}"
 puts "Running Headless: #{ENV['HEADLESS']}"
 
@@ -51,7 +49,7 @@ MoTestHelpers::SeleniumHelper.validate_browser!
 if ENV['CI'] and not ENV['SELENIUM_GRID_URL']
   puts "Running Cucumber in CI Mode."
 
-  if MoTestHelpers.cucumber_engine == :capybara
+  if MoTestHelpers::Cucumber.engine == :capybara
     raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
 
     Capybara.app_host = ENV['URL']
@@ -62,7 +60,7 @@ if ENV['CI'] and not ENV['SELENIUM_GRID_URL']
     browser = MoTestHelpers::SeleniumHelper.grid_watir_browser
   end
 else
-  if MoTestHelpers.cucumber_engine == :capybara
+  if MoTestHelpers::Cucumber.engine == :capybara
     Capybara.register_driver :selenium do |app|
       MoTestHelpers::SeleniumHelper.capybara_browser(app)
     end
@@ -71,13 +69,13 @@ else
   end
 end
 
-if MoTestHelpers.cucumber_engine == :capybara
+if MoTestHelpers::Cucumber.engine == :capybara
   Capybara.server_port = ENV['SERVER_PORT'] || 3001
 end
 
 # "before all"
 Before do
-  if MoTestHelpers.cucumber_engine == :watir
+  if MoTestHelpers::Cucumber.engine == :watir
     puts "Running Watir Browser."
 
     @browser = browser
