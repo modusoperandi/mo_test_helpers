@@ -6,6 +6,28 @@ require "selenium-webdriver"
 require 'pp'
 require 'mo_test_helpers/selenium_helper'
 
+module MoTestHelpers
+  
+  class Cucumber
+    
+    class << self
+      attr_accessor :cucumber_engine
+    
+      def configure
+        yield self
+      end
+    end
+    
+  end
+  
+end
+
+include MoTestHelpers
+
+Cucumber.configure do |config|
+  config.cucumber_engine = :watir
+end
+
 puts "Running with engine: #{MoTestHelpers.cucumber_engine}"
 puts "Running in CI: #{ENV['CI']}"
 puts "Running Headless: #{ENV['HEADLESS']}"
