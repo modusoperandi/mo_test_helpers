@@ -60,7 +60,7 @@ Before do
     @browser = browser
 
     unless ENV['URL']
-      ENV['URL'] = 'http://localhost:3000'
+      ENV['URL'] = 'http://localhost:3000/'
       puts "Warning: Using default URL localhost:3000 because ENV URL is not given."
     end
 
