@@ -114,8 +114,8 @@ end
 runner = MoTestHelpers::Cucumber.new
 
 runner.debug "Running with engine: #{MoTestHelpers::Cucumber.engine}"
-runner.debug "Running in CI: #{@runner.ci?}"
-runner.debug "Running Headless: #{@runner.headless?}"
+runner.debug "Running in CI: #{runner.ci?}"
+runner.debug "Running Headless: #{runner.headless?}"
 
 runner.run
 
