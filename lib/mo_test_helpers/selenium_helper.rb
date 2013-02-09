@@ -41,6 +41,8 @@ module MoTestHelpers
 
       def watir_browser
         if ENV['USER_AGENT']
+          pp "Running with agent #{ENV['USER_AGENT']}"
+          
           driver = Webdriver::UserAgent.driver(
             :browser => browser.to_sym, 
             :agent => (ENV['USER_AGENT'] || :iphone), 

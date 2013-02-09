@@ -42,7 +42,7 @@ module MoTestHelpers
           SeleniumHelper.grid_capybara_browser(app)
         end
       elsif self.class.engine == :watir
-        @browser = SeleniumHelper.grid_watir_browser
+        self.browser = SeleniumHelper.grid_watir_browser
       end
     end
     
@@ -54,7 +54,7 @@ module MoTestHelpers
         
         Capybara.server_port = local_server_port
       else
-        @browser = MoTestHelpers::SeleniumHelper.watir_browser
+        self.browser = MoTestHelpers::SeleniumHelper.watir_browser
       end
     end
     
@@ -111,27 +111,27 @@ MoTestHelpers::Cucumber.configure do |config|
   config.engine = :watir
 end
 
-@runner = MoTestHelpers::Cucumber.new
+runner = MoTestHelpers::Cucumber.new
 
-@runner.debug "Running with engine: #{MoTestHelpers::Cucumber.engine}"
-@runner.debug "Running in CI: #{@runner.ci?}"
-@runner.debug "Running Headless: #{@runner.headless?}"
+runner.debug "Running with engine: #{MoTestHelpers::Cucumber.engine}"
+runner.debug "Running in CI: #{@runner.ci?}"
+runner.debug "Running Headless: #{@runner.headless?}"
 
-@runner.run
+runner.run
 
 # "before all"
 Before do
   if MoTestHelpers::Cucumber.engine == :watir
-    @browser    = @runner.browser
-    @base_url   = @runner.test_url
-    @browser.goto @runner.test_url
+    @browser    = runner.browser
+    @base_url   = runner.test_url
+    @browser.goto runner.test_url
   end
 end
 
 # "after all"
 at_exit do
-  if @runner.browser
+  if runner.browser
     puts "Closing Watir browser."
-    @browser.close unless @runner.stay_open?
+    @browser.close unless runner.stay_open?
   end
 end
