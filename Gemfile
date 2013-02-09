@@ -12,3 +12,5 @@ gemspec
 
 # To use debugger
 # gem 'ruby-debug'
+# 
+gem 'webdriver-user-agent', :git => 'git://github.com/modusoperandi/webdriver-user-agent.git'
