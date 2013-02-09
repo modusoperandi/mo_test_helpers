@@ -5,6 +5,7 @@ require 'capybara'
 require "selenium-webdriver"
 require 'pp'
 require 'mo_test_helpers/selenium_helper'
+require 'webdriver-user-agent'
 
 module MoTestHelpers
   
@@ -18,6 +19,93 @@ module MoTestHelpers
       end
     end
     
+    attr_accessor :browser
+    
+    def initialize
+      
+    end
+    
+    def run
+      start_headless!
+      MoTestHelpers::SeleniumHelper.validate_browser!
+      
+      if grid?
+        debug "Running cucumber in the grid with #{self.class.engine}."
+        run_grid_cucumber
+      else
+        debug "Running cucumber locally with #{self.class.engine}."
+        run_local_cucumber
+      end
+    end
+    
+    def run_grid_cucumber
+      if self.class.engine == :capybara
+        Capybara.app_host = test_url
+        Capybara.register_driver :selenium do |app|
+          SeleniumHelper.grid_capybara_browser(app)
+        end
+      elsif self.class.engine == :watir
+        browser = SeleniumHelper.grid_watir_browser
+      end
+    end
+    
+    def run_local_cucumber
+      if MoTestHelpers::Cucumber.engine == :capybara
+        Capybara.register_driver :selenium do |app|
+          MoTestHelpers::SeleniumHelper.capybara_browser(app)
+        end
+        
+        Capybara.server_port = local_server_port
+      else
+        browser = MoTestHelpers::SeleniumHelper.watir_browser
+      end
+    end
+    
+    def start_headless!
+      return if headless? and not ci?
+      debug "Starting headless..."
+      
+      require 'headless'
+
+      headless = Headless.new
+      headless.start
+      at_exit do
+        headless.destroy
+      end
+    end
+    
+    def debug(msg)
+      pp msg if debugging?
+    end
+    
+    def local_server_port
+      ENV['SERVER_PORT'] || 3001
+    end
+    
+    def test_url
+      ENV['URL'] || "http://localhost:3000/"
+    end
+    
+    def ci?
+      ENV['CI'] == "true"
+    end
+    
+    def headless?
+      ENV['HEADLESS'] == "true"
+    end
+    
+    def debugging?
+      ENV['DEBUG'] == "1"
+    end
+    
+    def grid?
+      ENV['SELENIUM_GRID_URL'].to_s != ""
+    end
+    
+    def stay_open?
+      ENV['STAY_OPEN'] == "true"
+    end
+    
   end
   
 end
@@ -26,74 +114,27 @@ MoTestHelpers::Cucumber.configure do |config|
   config.engine = :watir
 end
 
-puts "Running with engine: #{MoTestHelpers::Cucumber.engine}"
-puts "Running in CI: #{ENV['CI']}"
-puts "Running Headless: #{ENV['HEADLESS']}"
+@runner = MoTestHelpers::Cucumber.new
 
-# should we run headless? Careful, CI does this alone!
-if ENV['HEADLESS'] and not ENV['CI']
-  puts "Starting headless..."
-  require 'headless'
+@runner.debug "Running with engine: #{MoTestHelpers::Cucumber.engine}"
+@runner.debug "Running in CI: #{@runner.ci?}"
+@runner.debug "Running Headless: #{@runner.headless?}"
 
-  headless = Headless.new
-  headless.start
-  at_exit do
-    headless.destroy
-  end
-end
-
-# Validate the browser
-MoTestHelpers::SeleniumHelper.validate_browser!
-
-# see if we are running on MO CI Server
-if ENV['CI'] and not ENV['SELENIUM_GRID_URL']
-  puts "Running Cucumber in CI Mode."
-
-  if MoTestHelpers::Cucumber.engine == :capybara
-    raise ArgumentError.new('Please give the URL to the Rails Server!') if ENV['URL'].blank?
-
-    Capybara.app_host = ENV['URL']
-    Capybara.register_driver :selenium do |app|
-      MoTestHelpers::SeleniumHelper.grid_capybara_browser(app)
-    end
-  else
-    browser = MoTestHelpers::SeleniumHelper.grid_watir_browser
-  end
-else
-  if MoTestHelpers::Cucumber.engine == :capybara
-    Capybara.register_driver :selenium do |app|
-      MoTestHelpers::SeleniumHelper.capybara_browser(app)
-    end
-  else
-    browser = MoTestHelpers::SeleniumHelper.watir_browser
-  end
-end
-
-if MoTestHelpers::Cucumber.engine == :capybara
-  Capybara.server_port = ENV['SERVER_PORT'] || 3001
-end
+@runner.run
 
 # "before all"
 Before do
   if MoTestHelpers::Cucumber.engine == :watir
-    puts "Running Watir Browser."
-
-    @browser = browser
-
-    unless ENV['URL']
-      ENV['URL'] = 'http://localhost:3000/'
-      puts "Warning: Using default URL localhost:3000 because ENV URL is not given."
-    end
-
-    @base_url = ENV['URL']
-    @browser.goto ENV['URL']
+    @browser    = @runner.browser
+    @base_url   = @runner.test_url
+    @browser.goto @runner.test_url
   end
 end
 
 # "after all"
 at_exit do
-  if @browser
+  if @runner.browser
     puts "Closing Watir browser."
-    @browser.close unless ENV["STAY_OPEN"]
+    @browser.close unless @runner.stay_open?
   end
 end

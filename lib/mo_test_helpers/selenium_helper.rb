@@ -38,7 +38,17 @@ module MoTestHelpers
       end
 
       def watir_browser
-        Watir::Browser.new(browser)
+        if ENV['USER_AGENT']
+          driver = UserAgent.driver(
+            :browser => browser, 
+            :agent => (ENV['USER_AGENT'] || :iphone), 
+            :orientation => (ENV['orientation'] || :portrait)
+          )
+          
+          Watir::Browser.new(driver)
+        else
+          Watir::Browser.new(browser)
+        end
       end
 
       def capybara_browser(app)
@@ -47,7 +57,7 @@ module MoTestHelpers
 
       def grid_watir_browser
         raise ArgumentError.new("SELENIUM_GRID_URL has to be defined.") unless selenium_grid
-
+        
         browser = Watir::Browser.new(:remote, :url => selenium_grid, :desired_capabilities => capabilities, :http_client => http_client)
         browser.driver.manage.timeouts.implicit_wait = 30
 
