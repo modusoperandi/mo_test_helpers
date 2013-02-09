@@ -42,7 +42,7 @@ module MoTestHelpers
           SeleniumHelper.grid_capybara_browser(app)
         end
       elsif self.class.engine == :watir
-        browser = SeleniumHelper.grid_watir_browser
+        @browser = SeleniumHelper.grid_watir_browser
       end
     end
     
@@ -54,7 +54,7 @@ module MoTestHelpers
         
         Capybara.server_port = local_server_port
       else
-        browser = MoTestHelpers::SeleniumHelper.watir_browser
+        @browser = MoTestHelpers::SeleniumHelper.watir_browser
       end
     end
     

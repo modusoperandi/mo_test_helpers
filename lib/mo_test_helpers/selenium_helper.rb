@@ -42,7 +42,7 @@ module MoTestHelpers
       def watir_browser
         if ENV['USER_AGENT']
           driver = Webdriver::UserAgent.driver(
-            :browser => browser, 
+            :browser => browser.to_sym, 
             :agent => (ENV['USER_AGENT'] || :iphone), 
             :orientation => (ENV['ORIENTATION'] || :portrait)
           )
