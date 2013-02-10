@@ -142,49 +142,49 @@ end
 Before("@iphone", "~@landscape") do
   runner.debug "Running iPhone Portrait."
   @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :iphone, :portrait)
-  @browser.goto runner.test_url
+  @browser.goto @base_url
 end
 
 Before("@ipad", "~@landscape") do
   runner.debug "Running iPad Portrait."
   @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :ipad, :portrait)
-  @browser.goto runner.test_url
+  @browser.goto @base_url
 end
 
 Before("@iphone", "@landscape") do
   runner.debug "Running iPad Landscape."
   @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :iphone, :landscape)
-  @browser.goto runner.test_url
+  @browser.goto @base_url
 end
 
 Before("@ipad", "@landscape") do
   runner.debug "Running iPad Landscape."
   @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :ipad, :landscape)
-  @browser.goto runner.test_url
+  @browser.goto @base_url
 end
 
 Before("@android_phone", "~@landscape") do
   runner.debug "Running iPhone Portrait."
   @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :android_phone, :portrait)
-  @browser.goto runner.test_url
+  @browser.goto @base_url
 end
 
 Before("@android_tablet", "~@landscape") do
   runner.debug "Running iPad Portrait."
   @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :android_tablet, :portrait)
-  @browser.goto runner.test_url
+  @browser.goto @base_url
 end
 
 Before("@android_phone", "@landscape") do
   runner.debug "Running iPad Landscape."
   @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :android_phone, :landscape)
-  @browser.goto runner.test_url
+  @browser.goto @base_url
 end
 
 Before("@android_tablet", "@landscape") do
   runner.debug "Running iPad Landscape."
   @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :android_tablet, :landscape)
-  @browser.goto runner.test_url
+  @browser.goto @base_url
 end
 
 After("@iphone, @android, @ipad, @desktop, @stored_browser") do
