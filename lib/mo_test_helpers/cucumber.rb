@@ -119,19 +119,75 @@ runner.debug "Running Headless: #{runner.headless?}"
 
 runner.run
 
-# "before all"
-Before do
-  if MoTestHelpers::Cucumber.engine == :watir
-    @browser    = runner.browser
-    @base_url   = runner.test_url
-    @browser.goto runner.test_url
-  end
+if MoTestHelpers::Cucumber.engine == :watir
+  @browser    = runner.browser
+  @base_url   = runner.test_url
+end
+
+Before("@iphone, @android, @ipad, @desktop") do
+  runner.debug "Storing browser."
+  @stored_browser = @browser
+end
+
+
+Before("@iphone", "~@landscape") do
+  runner.debug "Running iPhone Portrait."
+  @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :iphone, :portrait)
+  @browser.goto runner.test_url
+end
+
+Before("@ipad", "~@landscape") do
+  runner.debug "Running iPad Portrait."
+  @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :ipad, :portrait)
+  @browser.goto runner.test_url
+end
+
+Before("@iphone", "@landscape") do
+  runner.debug "Running iPad Landscape."
+  @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :iphone, :landscape)
+  @browser.goto runner.test_url
+end
+
+Before("@ipad", "@landscape") do
+  runner.debug "Running iPad Landscape."
+  @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :ipad, :landscape)
+  @browser.goto runner.test_url
+end
+
+Before("@android_phone", "~@landscape") do
+  runner.debug "Running iPhone Portrait."
+  @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :android_phone, :portrait)
+  @browser.goto runner.test_url
+end
+
+Before("@android_tablet", "~@landscape") do
+  runner.debug "Running iPad Portrait."
+  @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :android_tablet, :portrait)
+  @browser.goto runner.test_url
+end
+
+Before("@android_phone", "@landscape") do
+  runner.debug "Running iPad Landscape."
+  @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :android_phone, :landscape)
+  @browser.goto runner.test_url
+end
+
+Before("@android_tablet", "@landscape") do
+  runner.debug "Running iPad Landscape."
+  @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, :android_tablet, :landscape)
+  @browser.goto runner.test_url
+end
+
+
+After("@iphone, @android, @ipad, @desktop") do
+  runner.debug "Restoring browser."
+  @browser = @stored_browser
 end
 
 # "after all"
 at_exit do
   if runner.browser
-    puts "Closing Watir browser."
-    @browser.close unless runner.stay_open?
+    runner.debug "Closing Watir browser."
+    runner.browser.close unless runner.stay_open?
   end
 end
