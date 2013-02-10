@@ -119,16 +119,17 @@ runner.debug "Running Headless: #{runner.headless?}"
 
 runner.run
 
-if MoTestHelpers::Cucumber.engine == :watir
-  @browser    = runner.browser
-  @base_url   = runner.test_url
+Before do
+  if MoTestHelpers::Cucumber.engine == :watir
+    @browser    = runner.browser
+    @base_url   = runner.test_url
+  end
 end
 
 Before("@iphone, @android, @ipad, @desktop") do
   runner.debug "Storing browser."
   @stored_browser = @browser
 end
-
 
 Before("@iphone", "~@landscape") do
   runner.debug "Running iPhone Portrait."
