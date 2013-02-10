@@ -122,7 +122,7 @@ runner.run
 Given /^I am using a (.*)$/ do |device|
   runner.debug "Storing browser."
   @stored_browser = @browser
-  @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, @device.to_sym, :portrait)
+  @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, device.to_sym, :portrait)
   @browser.goto runner.test_url
 end
 
