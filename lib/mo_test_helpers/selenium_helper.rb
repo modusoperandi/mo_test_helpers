@@ -7,7 +7,7 @@ module MoTestHelpers
   class SeleniumHelper
 
     BROWSERS = [
-      "firefox", "android", "chrome", "htmlunit", "internet explorer", "ipad", "iphone", "opera", "safari"
+      "firefox", "android", "chrome", "htmlunit", "internet explorer", "ipad", "iphone", "opera", "safari", 'phantomjs'
     ]
 
     GRID_OPTIONS = %w{
