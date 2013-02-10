@@ -182,7 +182,7 @@ end
 
 After("@iphone, @android, @ipad, @desktop") do
   runner.debug "Restoring browser."
-  @browser.close
+  @browser.close unless runner.stay_open?
   @browser = @stored_browser
 end
 
