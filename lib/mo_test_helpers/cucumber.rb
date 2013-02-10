@@ -123,6 +123,7 @@ Before do
   if MoTestHelpers::Cucumber.engine == :watir
     @browser    = runner.browser
     @base_url   = runner.test_url
+    @browser.goto @base_url
   end
 end
 
