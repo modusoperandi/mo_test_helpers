@@ -178,9 +178,9 @@ Before("@android_tablet", "@landscape") do
   @browser.goto runner.test_url
 end
 
-
 After("@iphone, @android, @ipad, @desktop") do
   runner.debug "Restoring browser."
+  @browser.close
   @browser = @stored_browser
 end
 
