@@ -119,6 +119,13 @@ runner.debug "Running Headless: #{runner.headless?}"
 
 runner.run
 
+Given /^I am using a (.*)$/ do |device|
+  runner.debug "Storing browser."
+  @stored_browser = @browser
+  @browser = MoTestHelpers::SeleniumHelper.watir_browser(:firefox, @device.to_sym, :portrait)
+  @browser.goto runner.test_url
+end
+
 Before do
   if MoTestHelpers::Cucumber.engine == :watir
     @browser    = runner.browser
@@ -180,11 +187,12 @@ Before("@android_tablet", "@landscape") do
   @browser.goto runner.test_url
 end
 
-After("@iphone, @android, @ipad, @desktop") do
+After("@iphone, @android, @ipad, @desktop, @stored_browser") do
   runner.debug "Restoring browser."
   @browser.close unless runner.stay_open?
   @browser = @stored_browser
 end
+
 
 # "after all"
 at_exit do
