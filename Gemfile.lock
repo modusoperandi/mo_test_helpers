@@ -1,12 +1,3 @@
-GIT
-  remote: git://github.com/modusoperandi/webdriver-user-agent.git
-  revision: 0cc88a0e61a7b36804412a59e682d9be24e0de27
-  specs:
-    webdriver-user-agent (0.2.0)
-      facets
-      json
-      selenium-webdriver
-
 PATH
   remote: .
   specs:
@@ -21,56 +12,56 @@ PATH
       simplecov (>= 0.7.1)
       simplecov-rcov (>= 0.2.3)
       watir (>= 4.0.2)
+      webdriver-user-agent (= 0.2.2)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    activesupport (3.2.11)
-      i18n (~> 0.6)
+    activesupport (3.2.13)
+      i18n (= 0.6.1)
       multi_json (~> 1.0)
-    builder (3.1.4)
-    capybara (2.0.2)
+    builder (3.2.0)
+    capybara (2.1.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
-      selenium-webdriver (~> 2.0)
-      xpath (~> 1.0.0)
-    childprocess (0.3.7)
-      ffi (~> 1.0, >= 1.0.6)
+      xpath (~> 2.0)
+    childprocess (0.3.9)
+      ffi (~> 1.0, >= 1.0.11)
     commonwatir (4.0.0)
-    cucumber (1.2.1)
+    cucumber (1.3.1)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.3)
-      gherkin (~> 2.11.0)
-      json (>= 1.4.6)
+      gherkin (~> 2.12.0)
+      multi_json (~> 1.3)
     database_cleaner (0.9.1)
-    diff-lcs (1.1.3)
+    diff-lcs (1.2.4)
     facets (2.9.3)
     factory_girl (4.2.0)
       activesupport (>= 3.0.0)
-    ffi (1.3.1)
-    gherkin (2.11.6)
-      json (>= 1.7.6)
-    headless (1.0.0)
+    ffi (1.8.1)
+    gherkin (2.12.0)
+      multi_json (~> 1.3)
+    headless (1.0.1)
     i18n (0.6.1)
-    json (1.7.6)
-    mime-types (1.21)
-    multi_json (1.5.0)
-    nokogiri (1.5.6)
+    json (1.8.0)
+    mime-types (1.23)
+    multi_json (1.7.3)
+    nokogiri (1.5.9)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
-    rspec (2.12.0)
-      rspec-core (~> 2.12.0)
-      rspec-expectations (~> 2.12.0)
-      rspec-mocks (~> 2.12.0)
-    rspec-core (2.12.2)
-    rspec-expectations (2.12.1)
-      diff-lcs (~> 1.1.3)
-    rspec-mocks (2.12.2)
+    rspec (2.13.0)
+      rspec-core (~> 2.13.0)
+      rspec-expectations (~> 2.13.0)
+      rspec-mocks (~> 2.13.0)
+    rspec-core (2.13.1)
+    rspec-expectations (2.13.0)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.13.1)
     rubyzip (0.9.9)
-    selenium-webdriver (2.29.0)
+    selenium-webdriver (2.32.1)
       childprocess (>= 0.2.5)
       multi_json (~> 1.0)
       rubyzip
@@ -84,10 +75,14 @@ GEM
     watir (4.0.2)
       commonwatir (~> 4)
       watir-webdriver
-    watir-webdriver (0.6.2)
+    watir-webdriver (0.6.4)
       selenium-webdriver (>= 2.18.0)
+    webdriver-user-agent (0.2.2)
+      facets
+      json
+      selenium-webdriver
     websocket (1.0.7)
-    xpath (1.0.0)
+    xpath (2.0.0)
       nokogiri (~> 1.3)
 
 PLATFORMS
@@ -95,4 +90,3 @@ PLATFORMS
 
 DEPENDENCIES
   mo_test_helpers!
-  webdriver-user-agent!

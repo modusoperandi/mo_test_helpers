@@ -42,6 +42,7 @@ You can tag a cucumber scenario with the following:
 * @android_phone - Will run the scenario in an Android Phone "firefox"
 * @android_tablet - Will run the scenario in an Android Tablet "firefox"
 * @landscape - Only works in combination with any of those above.
+* @stored_browser - Be able to open multiple browsers and store the old one, useful for scenario outlines with multiple devices
 
 **Environment Variables**
 

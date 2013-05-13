@@ -25,4 +25,5 @@ Gem::Specification.new do |s|
   s.add_dependency "headless",              ">= 0.3.1"
   s.add_dependency "simplecov",             ">= 0.7.1"
   s.add_dependency "simplecov-rcov",        ">= 0.2.3"
+  s.add_dependency "webdriver-user-agent",  "= 0.2.2"
 end
