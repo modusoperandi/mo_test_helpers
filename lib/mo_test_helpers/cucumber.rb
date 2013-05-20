@@ -41,7 +41,7 @@ module MoTestHelpers
         Capybara.register_driver :selenium do |app|
           SeleniumHelper.grid_capybara_browser(app)
         end
-      elsif self.class.engine == :watir
+      else # watir is default
         self.browser = SeleniumHelper.grid_watir_browser
       end
     end
@@ -105,10 +105,6 @@ module MoTestHelpers
     
   end
   
-end
-
-MoTestHelpers::Cucumber.configure do |config|
-  config.engine = :watir
 end
 
 runner = MoTestHelpers::Cucumber.new
