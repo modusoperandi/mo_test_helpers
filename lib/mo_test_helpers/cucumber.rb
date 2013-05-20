@@ -23,7 +23,7 @@ module MoTestHelpers
     end
     
     def run
-      start_headless!
+      start!
       MoTestHelpers::SeleniumHelper.validate_browser!
       
       if grid?
@@ -57,9 +57,16 @@ module MoTestHelpers
         self.browser = MoTestHelpers::SeleniumHelper.watir_browser
       end
     end
+
+    def start!
+      if can_run_headless? and (wants_headless? or ci?)
+        start_headless!
+      else
+        # Regular start does not need any special commands
+      end
+    end
     
     def start_headless!
-      return if headless? and not ci?
       debug "Starting headless..."
       
       require 'headless'
@@ -88,7 +95,18 @@ module MoTestHelpers
     end
     
     def headless?
+      wants_headless? and can_run_headless?
+    end
+
+    def wants_headless?
       ENV['HEADLESS'] == "true"
+    end
+
+    # Yes, I am neglecting windows here
+    def can_run_headless?
+      on_mac = (RUBY_PLATFORM =~ /darwin/)
+      puts "You requested to run headless, but this only works under Linux" if wants_headless? and on_mac
+      not on_mac
     end
     
     def debugging?
