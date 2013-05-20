@@ -107,6 +107,12 @@ module MoTestHelpers
   
 end
 
+if $mo_test_engine
+  MoTestHelpers::Cucumber.configure do |config|
+    config.engine = $mo_test_engine
+  end
+end
+
 runner = MoTestHelpers::Cucumber.new
 
 runner.debug "Running with engine: #{MoTestHelpers::Cucumber.engine}"
